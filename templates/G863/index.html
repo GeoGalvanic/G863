@@ -1,0 +1,165 @@
+{% extends "G863/template.html" %}
+{% load static %}
+
+{% block title %}Geal's 863 Portfolio{% endblock %}
+
+{% block flex-content %}
+    <div class="bubble-container" id="lesson1-content">
+        <h2 class="lesson-title">Lesson 1: Creating Apps Without Programming</h2>
+        <ul>
+            <li><a href="https://pennstate.maps.arcgis.com/apps/webappviewer3d/index.html?id=703341842be842e2a0d20209bd1677d3">
+                Lesson One Web App
+                </a> - ESRI Web App Builder</li>
+        </ul>
+        <img style="margin: 20px; float: left;" src="{% static 'G863/Lesson1-Screenshot.png' %}" width="30%">
+        <p>
+            This lesson explored the codeless mapping solutions that are available from within the ESRI ecosystem.
+            Throughout the lesson we learned how to use the ArcGIS portal web maps and how to create and style web
+            applications from them.
+        </p>
+        <p>
+            For my Lesson assignment I choose to employ the 3D building data in Los Angeles that I had created during 
+            my final project for GEOG: 485. The web app builder configuration options for web scenes is much slimmer 
+            than what is available for regular 2D web maps. As such the only custom widgets in the scene are a Basemap 
+            Selector (which doesn’t support removing specific basemaps), the measure tool, and a daylight shadows tool. 
+            The web scene interface also differs greatly from the web map interface, supporting fewer features like 
+            labeling or the pop-up configuration.
+        </p>
+    </div>
+
+    <div class="bubble-container" id="lesson2-content">
+        <h2 class="lesson-title">Lesson 2: Web Publishing (HTML/XHTML/CSS)</h2>
+        <ul>
+            <li><a href="{% url 'G863:lesson2' %}">Lesson Two Project</a> - XHTML/CSS Web Page</li>
+        </ul>
+        <p>
+            This lesson served as an introduction/reminder on the syntax and core elements of HTML and CSS languages.
+        </p>
+        <embed style="border: medium solid gray; background-color: white;" type="text/html"
+            src="https://sarrett.dev/863/lesson2" width="100%" height="200px">
+        <p>
+            The assignment for this lesson was to convert a given PDF file into a web using HTML and CSS to recreate
+            the design as accurately as possible. One of the requirements for this assignment was to write the HTML
+            using XHTML syntax.
+        </p>
+    </div>
+
+    <div class="bubble-container" id="lesson3-content">
+        <h2 class="lesson-title">Lesson 3: ArcGIS API for JavaScript Introduction</h2>
+        <ul>
+            <li><a href="{% url 'G863:lesson3' suffix='a'%}"> Lesson 3 Part 1</a> - Hometown Marker</li>
+            <li><a href="{% url 'G863:lesson3' suffix='b'%}"> Lesson 3 Part 2</a> - Graphic Attribute Popup</li>
+        </ul>
+
+        <!-- CodePen Embed -->
+        <!-- TODO: This embed changes the width of bubble containers ever so slightly-->
+        <p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="QWgKLoK" data-user="geogalvanic" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+            <span>See the Pen <a href="https://codepen.io/geogalvanic/pen/QWgKLoK">
+            Cleveland, OH Map</a> by GeoGalvanic (<a href="https://codepen.io/geogalvanic">@geogalvanic</a>)
+            on <a href="https://codepen.io">CodePen</a>.</span>
+        </p>
+        <script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
+        <!-- end embed -->
+        
+        <p>This lesson was a good refresher on the syntax used by JavaScript, especially after using python almost exclusively over the last year. In particular I was paying attention to the variable, function, loop and class definitions/declarations which differ slightly from python but retain most of the same functionality. It was also a good opportunity to re-familiarize myself with the JS API Reference documentation, which has changed it’s UI slightly since I last used it. The implementation of the lesson assignments was pretty straightforward and accomplished without issue. One of the things I had forgotten about the JS API was the limited number of style types available within the SimpleMarkerSymbol class, especially when compared with the extensive symbology options I’ve been getting used to in desktop ArcGIS Pro. Originally I wanted to make the symbol a star, however this seems that it would require either using a PictureMarkerSymbol (which would also require creating images for each color if I later wanted to use it in a unique value or class breaks renderer) or to use a TextSymbol and a star character (★) in the text, which I’m not entirely certain will work or be consistent across client platforms.</p>
+        <p>This lesson also presented me with a difficult challenge in having to select only one hometown, as in reality I actually have many hometowns. This prompted me to extend the lesson with the below where I use OOP practices I learned from GEOG 489 to create a list of city objects representing my collection of hometowns and add them as graphics to the map with a loop. This approach also required calculating an extent based on the hometown list, rather than centering the map on a single point.</p>
+        <ul>
+            <li><a href="{% url 'G863:lesson3' suffix='c'%}"> Lesson 3 Part X(tra)</a> - Multiple Town Markers</li>
+        </ul>
+    </div>
+
+    <div class="bubble-container" id="lesson4-content">
+        <h2 class="lesson-title">Lesson 4: Adding Layers</h2>
+        <ul>
+            <li><a href="{% url 'G863:lesson4' %}">Lesson Four IDE Video Review</a></li>
+        </ul>
+        <video width="30%" style="float: left; margin: 20px;" controls>
+            <source src="{% static 'G863/G863_Kate.mp4' %}" type="video/mp4">
+            <track default kind="subtitles" src="{% static 'G863/Kate.vtt' %}" srclang="en" label="warning" mode="showing">
+            Whoops... It looks like your browser doesn't support HTML5 and/or MP4 video files...
+        </video>
+        <p>
+            This lesson showed how to add new layers from ESRI's ecosystem into web apps created from the JS API. The 
+            lesson covered the different types of Geospatial web layers, navigating through ESRI's REST API, and covered
+            some coding fundamentals such as debugging and autocasting.
+        </p>
+        <p>
+            The primary assignments for this lesson were to create web apps utilizing different types of layers. Part of
+            the core requirements for this task were being able to find the layers from ArcGIS Online on our own, as
+            such we were asked not to share these assignments on our portfolios, in order to not give away the answer to
+            future classes.
+        </p>
+        <p>
+            The final component of this lesson was to create a video investigating the qualities of an IDE, for which I
+            decided to explore KDE's Kate.
+        </p>
+    </div>
+
+    <div class="bubble-container" id="lesson5-content">
+        <h2 class="lesson-title">Lesson 5: Layer Visualization</h2>
+        <ul>
+            <li><a href="{% url 'G863:lesson5' %}">Lesson Five Visualizng Scene Layers</a></li>
+        </ul>
+        <img style="margin: 20px; float: left;" src="{% static 'G863/lesson5/Lesson5_preview.png' %}" width="30%">
+        <p>
+            When starting this assignment I decided that I wanted to create a semi-realistic thematic scene using 3D 
+            object models. I found some feature layers representing real world objects on the UCR campus and then 
+            downloaded some free 3D GLTF models to represent those objects. 
+        </p>
+        <p>
+            The first thing I attempted to do in this project was extend the ArcGIS API classes. Through much experimentation I was able to accomplish this by using the Accessor class. I ended up extending the Object3DSymbol layer in order to simplify using GLTF models as the resource type.
+        </p>
+        <p>
+            When adding reclying bins I decided to use a UniqueValuesRenderer which would change the color of the model depending on the bin type. For the pop-ups I decided to use text content which shows only fields that are not empty.
+        </p>
+        <p>
+            For the trees layer I again used a unique value renderer, this time changing the model rather than the color depending on the type of tree. I also employed the use of visual variables in order to change the height of the trees. For the popups on this layer I simply made use of the attachments content.
+        </p>
+    </div>
+
+    <div class="bubble-container" id="lesson6-content">
+        <h2 class="lesson-title">Lesson 6: Search and Query Capability</h2>
+        <ul>
+            <li><a href="{% url 'G863:lesson6' %}">Lesson Six World Cities Spatial Query</a></li>
+        </ul>
+        <img style="margin: 20px; float: left;" src="{% static 'G863/Lesson6_ss.png' %}" width="30%">
+        <p>
+            This map will display a window prompt asking the user to input the name of a continent. Behind the scenes 
+            the application will then query an ArcGIS Online continents feature service to get the geometry for the 
+            continent in order to perform a spatial query on a world cities feature service. The world cities which are 
+            returned from the query are symbolized according to the population size using a UniqueValuesRenderer. Once 
+            the world cities are loaded onto the map the view will pan and zoom to encompass those cities. An 
+            additional feature to this map is that it will verify your input to make sure you enter the name of a real 
+            continent. If the user fails to enter a valid input a prompt will displayed reminding the user of continent 
+            names. 
+        </p>
+    </div>
+
+    <div class="bubble-container" id="lesson6-content">
+        <h2 class="lesson-title">Lesson 7: User Interface Development</h2>
+        <ul>
+            <li><a href="{% url 'G863:lesson7' %}">Lesson Seven World Cities UI</a></li>
+        </ul>
+        <img style="margin: 20px; float: left;" src="{% static 'G863/Lesson7_ss.png' %}" width="30%">
+        <p>
+            This project worked on and refined the previous one by adding user interface elements. The main behaviors I
+            was aiming for in this design revolved around the implementation of the sidebar. I wanted to ensure that
+            the sidebar would not cover UI elements, could be closed or expaned to a size dependent on the size of the
+            view, and also included in the frame of the map. In order to achieve this effect I had to modify the DOM
+            elements that were created by the ESRI JS API to make sure the default UI elements would grow/shrink with
+            the newly added sidebar. In order to implement interactivity for the sidebar I employed an object based
+            approach in order to link the html elements with their Graphics instances. The other two main UI elements
+            are selectors at the bottom of the map, a widget selector that changes the widget in the top right and a
+            query selector that drives the query elements from the previous lesson.
+        </p>
+    </div>
+    <div class="bubble-container" id="lesson6-content">
+        <h2 class="lesson-title">Final Project: Client Side Feature Editor</h2>
+        <ul>
+            <li><a href="{% url 'G863:final' %}">Final Project Page</a></li>
+        </ul>
+        <p>
+            This project mainly makes use of the experimental File Access System API available in Chrome/Chromium browsers that provides JS applications access to files on the clients local machine without needing to prompt the user to download and upload files. The application makes use of a "project" directory structure in order to allow users to keep track data edits.
+        </p>
+    </div>
+{% endblock%}

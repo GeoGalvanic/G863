@@ -1,0 +1,138 @@
+{% extends "G863/lesson-template.html" %}
+{% load static %}
+
+{% block title %}Layer Visualization Scene{% endblock %}
+{% block head-ext %}
+  <link rel="stylesheet" type="text/css" href="{% static 'G863/lesson3.css' %}" />
+  <link
+      rel="stylesheet"
+      href="https://js.arcgis.com/4.20/esri/themes/light/main.css"
+  />
+  <script type="text/javascript">
+    var dojoConfig = {
+      paths: {
+        sarrett:  "{% static 'G863/lesson5/sarrettmods' %}"
+      }
+    };</script>
+  <script src="https://js.arcgis.com/4.20/"></script>
+  <script src="{% static 'G863/lesson5.js' %}"></script>
+
+{% endblock %}
+
+{% block page-title %}GEOG: 863 Lesson 5 - Visualizing Layers{% endblock %}
+
+
+{% block lesson-content %}
+  <div id="viewDiv"></div>
+  <h2>Description</h2>
+  <p>
+    When starting this assignment I decided that I wanted to create a semi-realistic thematic
+    scene using 3D object models. I found some feature layers representing real world objects
+    on the UCR campus and then downloaded some free 3D GLTF models to represent those objects.
+  </p>
+  <h2>Extending ArcGIS API Classes</h2>
+  <p>
+    I knew that I would be using the ObjectSymbol3DLayer quite a bit for this project, as such my first instinct was
+    to customize and extend the class behavior for my specific use case. This proved not to be nearly as simply as I
+    thought that it should be, however I was able to learn quite a lot from the experience. I could have achieved my
+    intended goal by using a function rather than modifying the class but know that I've learned how it's possible that
+    I can save time in future projects or handle cases that are not easily solved by functions.
+  </p>
+  <h3>Basic JavaScript Inheritance</h3>
+  <p>
+    Expanding upon my knowledge from GEOG489 and Python classes, I figured the best place to start would be by using
+    the regular JavaScript classes. This led to me learning about the
+    <a href="https://www.w3schools.com/js/js_class_inheritance.asp">JavaScript Inheritance Structure</a> and the way it
+    differs from Python syntax. One of the things I found useful in Python when working in Python was the unpacking
+    operators and the use of kwargs. In JavaScript I found that the functional equivalent is known as
+    <a href="https://exploringjs.com/impatient-js/ch_destructuring.html">destructuring</a> and that there is no
+    equivalent for key word arguments, which is why a singular Object is often used as the last argument, in order to
+    create key based arguments using that object. As I wrote up the code to handle this implementation I also looked
+    into <a href="https://jsdoc.app/about-getting-started.html">JSDOC documentation syntax</a>
+    in order to more thoroughly document the class I was creating (and to take advantage of VS Code's Intellisense).
+    When I finally started trying to test <a href="{% static 'G863/old.text' %}">the code I had written</a>, after
+    some efforts in debugging I realized that the ESRI JS API classes are not built using the standard JS syntax, and
+    are instead built using Dojo's own custom class implementation, meaning my approach here would not work.
+  </p>
+  <h3>Custom Dojo Modules & Classes</h3>
+  <p>
+    Armed with the knowledge that I would need to learn Dojo's class inhertiance to work with the ArcGIS classes I
+    dived in and started with learning about 
+    <a href="https://dojotoolkit.org/documentation/tutorials/1.10/modules/">Dojo's Define Function</a>.
+    From there I needed to learn how to create a reference to my custom Modules when
+    <a href="https://dojotoolkit.org/documentation/tutorials/1.10/cdn/">accessing the CDN</a>, which I eventually
+    learned is handled differently by ESRI's JS API CDN (setting global variables in script tags in the header) than
+    the Dojo CDN (with a data variable in the script tag). After writing out my class using the
+    <a href="https://dojotoolkit.org/documentation/tutorials/1.10/declare/index.html">Dojo class inhertiance</a>
+    structure and some troubleshooting I learned that ESRI doesn't support Dojo class inhertiance due to their
+    <a href="https://developers.arcgis.com/javascript/latest/implementing-accessor/#">Accessor Implementation</a>
+    they use to create classes, and although it's built using the Dojo class implementation, breaks inhertiance for
+    classes that aren't also created using the Accessor class.
+  </p>
+  <h3>Using ArcGIS Accessor Class</h3>
+  <p>
+    My final implementation came after reading through all of the accessor documentation and I was able to successfully
+    create a new <a href="{% static 'G863/lesson5/sarrettmods/gltfObjectSymbol.js'%}">gltfObjectSymbol</a>
+    which inherits the ObjectSymbol3DLayer. I only made a few small modifications here. I made the default value for
+    width and height properties undefined (instead of 10) so that these dimensions would scale according to the set
+    height value. I also added a new url property which sets the href property an object in the resource property of the
+    class, somewhat simplifying the process by ignoring primitives (since I'm not concerned with them). In a
+    professional setting I would have also added validation within the url setter function in order to make sure that
+    the url points to a valid gltf model file.
+  </p>
+  <h4>Adding Autocasting</h4>
+  <p>
+    With my custom class finally actually working I wanted to see if I could simplify the code writing further by adding
+    autocasting. This led to me creating yet another custom class based on the PointSymbol3D class, the
+    <a href="{% static 'G863/lesson5/sarrettmods/gltfPointSymbol.js'%}">gltfPointSymbol</a> class. The only thing
+    this class does is replace the symbolLayers type property with a collection of gltfObjectSymbols (meaning it cannot
+    have any other symbol layer types). Since there is only one potential type for the value, Accessor will correctly
+    Autocast the gltfObjectSymbol. This does produce an error in the console log, "[esri.core.Accessor] Accessor#set 
+    Assigning an instance of 'esri.symbols.ObjectSymbol3DLayer' which is not a subclass of
+    'sarrett.symbols.gltfObjectSymbol'", I'm not entirely sure why it does this, however it still works so I decided to
+    leave it as is for now. I wasn't able to add a custom "type" property to autocast from, as this is likely
+    accomplished by ESRI using a custom cast function in the class definition under the hood, probably with some sort of
+    switch logic to determine the appropriate constructor to use given the input object's type property. I could have
+    implemented the autocasting functionality all the way "up the chain" to the FeatureLayer class in this maner, thus
+    removing any unecessary module imports, however for the sake of time and complexity I did not create custom classes
+    for each renderer and the FeatureLayer. In situation where this was really necessary the best approach would
+    probably be to download the API and edit the PointSymbol3D class to accept the custom class as a valid type
+    directly.
+  </p>
+  <h2>Recycling Bin Layer</h2>
+  <p>
+    I started by adding a layer for recycling bins. I decided that I wanted to use a UniqueValuesRenderer which would
+    change the color of the model. In order to easily create the multiple symbols I would need for each type I created a
+    function to create the appropriate symbols using only the color as an argument. For the pop-ups I decided to use
+    text content showing only the fields with values that are not empty. In order to assure only non-empty values were
+    shown in the popup I made use of the expressionInfos property in the popup template. It took a bit of trial and
+    error to get it to work properly, as I eventually realized that the "empty" fields in this dataset were not null or
+    empty strings, they were strings with one space in them (meaning they weren't caught by the Arcade IsEmpty Function)
+  </p>
+  <h2>Trees Layer</h2>
+  <p>
+    For the trees layer I again used a unique value renderer, this time changing the model rather than the color. I
+    also employed the use of visual variables in order to change the height of the trees. Using visual variables in this
+    instance was made more complicated by the fact that I didn't have a numerical field to go from. In order get the
+    visual variables to work I needed to use an expression that cleaned the text "height" field by stripping the text
+    and returning a number. This also shows a use case where a visual variable can be used without needing to specify
+    any stops. For the popups on this layer I simply made use of the attachments content.
+  </p>
+  <h2>Attribution</h2>
+  <ul>
+    <li>Feature Layers are hosted on ArcGIS Online and owned by the user
+      <a href="https://www.arcgis.com/home/user.html?user=gis_UCRGIS">gis_UCRGIS</a></li>
+    <li><a href="https://skfb.ly/5jh2f1b">"Garbage container"</a> by 3DHaupt is licensed under
+      <a href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution</a>.</li>
+    <li><a href="https://skfb.ly/CWIX">"Tree"</a> by Raid is licensed under
+      <a href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution</a>.</li>
+    <li><a href="https://skfb.ly/6TxwB">"Platano Tree"</a> by Rodrigo Gelmi is licensed under
+      <a href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution</a>.</li>
+    <li><a href="https://skfb.ly/6SQuU">"Bodhi Tree"</a> by Ashim Shakya is licensed under
+      <a href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution</a>.</li>
+    <li><a href="https://skfb.ly/ED7P">"Tree"</a> by torchwurm is licensed under
+      <a href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution</a>.</li>
+    <li><a href="https://skfb.ly/YvW7">"Laurel Tree - Low Poly"</a> by Alan Zimmerman is licensed under
+      <a href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution</a>.</li>
+  </ul>
+{% endblock %}

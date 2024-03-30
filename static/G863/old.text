@@ -1,0 +1,28 @@
+  /** Extended class of ObjectSymbol3DLayer which is limited to only gltf resources */
+  class gltfObjectLayer extends ObjectSymbol3DLayer {
+
+    /**
+     * 
+     * @param {string} url - The url to a gltf object file.
+     * @param {Object} [options] - The options contianing the parameters to be used in the constructor.
+     */
+    constructor(options) {
+      //options.resource = { primitive: "cylinder" } //add the url to the href property of a resource object
+
+      //replace the default value from 10 to undefined for width and depth, so they are calculated to scale with height
+      //if ( !("depth" in options) ) { options.depth = undefined}; 
+      //if ( !("width" in options) ) { options.width = undefined};
+
+      super(options)
+      //this.url = url
+    }
+
+    /**
+     * @param {string} url - The url to a gltf object which will be set on the object
+     *
+    set url(url) {
+      this.resource = { href: url };
+      this.url = url;
+    }
+    */
+  };

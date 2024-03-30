@@ -1,0 +1,30 @@
+{% extends "G863/lesson-template.html" %}
+{% load static %}
+
+{% block title %}World Cities UI{% endblock %}
+{% block head-ext %}
+  <link rel="stylesheet" type="text/css" href="{% static 'G863/lesson3.css' %}" />
+  <link
+    rel="stylesheet"
+    href="https://js.arcgis.com/4.21/esri/themes/dark/main.css"
+  />
+  <script src="https://js.arcgis.com/4.21/"></script>
+  <script src="{% static 'G863/lesson7.js' %}"></script>
+  <style>#lesson-bubble {max-width: 1800px !important}</style>
+{% endblock %}
+
+{% block page-title %}GEOG: 863 Lesson 7 - Adding UI Elements{% endblock %}
+
+{% block lesson-content %}
+  <div id="viewDiv" style="border: thin solid slategray"></div>
+  <div id="ui-flex-container" style="display: flex; height: 100%">
+    <div id="ui-sidebar" class="esri-component" style="max-width: 100%; order: 2; position: relative; display: grid;
+      grid-template-columns: 2em 1fr; grid-template-rows: 100%; flex-grow: 1; justify-content: right">
+      <button id="ui-sidebar-button" class="site-button" style="background-color: darkgreen;border-radius: 1em 0 0 1em;
+        border: thin solid slategray; display: flex; align-items: center;justify-content: center;
+        flex-grow: 1;">&#9654;</button>
+      <div id="ui-sidebar-content" style="background-color: #bdb76b85; overflow-y: auto; overflow-x: hidden;
+        min-width: max-content;"></div>
+    </div>
+  </div>
+{% endblock %}

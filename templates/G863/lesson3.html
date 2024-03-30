@@ -1,0 +1,22 @@
+{% extends "G863/lesson-template.html" %}
+{% load static %}
+
+{% block title %}Cleveland, OH Map{% endblock %}
+{% block head-ext %}
+  <link rel="stylesheet" type="text/css" href="{% static 'G863/lesson3.css' %}" />
+  <link
+    rel="stylesheet"
+    href="https://js.arcgis.com/4.20/esri/themes/light/main.css"
+  />
+  <script src="https://js.arcgis.com/4.20/"></script>
+  {% with 'G863/lesson3'|add:suffix|add:'.js' as js_file %}
+      <script src="{% static js_file %}"></script>
+  {% endwith %}
+{% endblock %}
+
+{% block page-title %}GEOG: 863 Lesson 3 - Mapping My Hometown{% endblock %}
+
+
+{% block lesson-content %}
+  <div id="viewDiv"></div>
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends "G863/lesson-template.html" %}
+{% load static %}
+
+{% block title %}Geal's GEOG:863 Lesson 4{% endblock %}
+{% block page-title %}GEOG: 863 Lesson 4 - Video Review of Kate Text Editor{% endblock %}
+
+
+{% block lesson-content %}
+    <video width="90%" style="margin: 20px; margin-left: auto; margin-right: auto; display: block" controls>
+        <source src="{% static 'G863/G863_Kate.mp4' %}" type="video/mp4">
+        <track default kind="subtitles" src="{% static 'G863/Kate.vtt' %}" srclang="en" label="warning" mode="showing">
+        Whoops... It looks like your browser doesn't support HTML5 and/or MP4 video files...
+    </video>
+
+    <span style="font-weight: 680">Summary:</span>
+    <ul>
+        <li>Kate is free and open source, developed by KDE</li>
+        <li>It can be downloead from <a href="https://kate-editor.org/get-it/">https://kate-editor.org/get-it/</a></li>
+        <li>The functionality can be expanded with plugins, many are included with the download</li>
+        <li>Supports code autocompletion (support for JS is a bit iffy, however auto-complete snippets can pick up the 
+        slack)</li>
+        <li>Tag autocompletion can be simulated by using XML tags</li>
+        <li>There are no debugging features. The KDE IDE KDevelop includes debugging features, however only supports a 
+        limited number of languages.</li>
+        <li>Code Folding and Line Numbering is supported</li>
+        <li>Two types of word wrap, Dynamic and Static, can help developers control their length of lines</li>
+        <li>Has a load of navigation and beautifiy features</li>
+        <li>Can add additional utility through the use of Javascript scripts</li>
+    </ul>
+
+    <p>
+        Overall Kate has a wealth of features that make it a competitive IDE, especially for those who value FOSS 
+        principles. Considering that my main OS is Linux I would definitely use it over the likes of Notepad++ that 
+        would require me to use an emulator to run. However, I'm likely to stick with VS Code (my review from GEOG 489 
+        below) for the near future due to having more extensive extensions, an easy to use Git/Github interface and    
+        simple remote server connection setup.
+    </p>
+
+    <video width="90%" style="margin-left: auto; margin-right: auto; display: block" controls>
+        <source src="{% static 'G863/G489_VSCode.mp4' %}" type="video/mp4">
+        Whoops... It looks like your browser doesn't support HTML5 and/or MP4 video files...
+    </video>
+{% endblock %}

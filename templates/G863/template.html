@@ -1,0 +1,31 @@
+{% extends "main/template.html" %}
+{% load static %}
+
+{% block head-ext %}{% endblock %}
+{% block title %}Geal's GEOG: 863 E-Portfolio{% endblock %}
+
+{% block page-title %}Welcome to Geal's GEOG: 863 E-Portfolio!{% endblock %}
+
+{% block navbar %}
+<div id="local-navbar">
+    <a href="{% url 'G863:G863' %}" class="local-nav-button bubble-container">863 Portfolio</a>
+    <div class="local-nav-dropdown">
+        <div class="local-nav-button bubble-container">Select Lesson &#9660</div>
+        <div class="dropdown-content">
+            <a href="https://pennstate.maps.arcgis.com/apps/webappviewer3d/index.html?id=703341842be842e2a0d20209bd1677d3" class="local-nav-dropdown-item">Lesson 1</a>
+            <a href=" {% url 'G863:lesson2' %}" class="local-nav-dropdown-item">Lesson 2</a>
+            <a href=" {% url 'G863:lesson3' suffix='a' %}" class="local-nav-dropdown-item">Lesson 3A</a>
+            <a href=" {% url 'G863:lesson3' suffix='b' %}" class="local-nav-dropdown-item">Lesson 3B</a>
+            <a href=" {% url 'G863:lesson3' suffix='c' %}" class="local-nav-dropdown-item">Lesson 3X</a>
+            <a href=" {% url 'G863:lesson4' %}" class="local-nav-dropdown-item">Lesson 4</a>
+            <a href=" {% url 'G863:lesson5' %}" class="local-nav-dropdown-item">Lesson 5</a>
+            <a href=" {% url 'G863:lesson6' %}" class="local-nav-dropdown-item">Lesson 6</a>
+            <a href=" {% url 'G863:lesson7' %}" class="local-nav-dropdown-item">Lesson 7</a>
+            <a href=" {% url 'G863:final' %}" class="local-nav-dropdown-item">Final Project</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block  flex-content %}{% endblock %}
+

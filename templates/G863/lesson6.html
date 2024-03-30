@@ -1,0 +1,51 @@
+{% extends "G863/lesson-template.html" %}
+{% load static %}
+
+{% block title %}World Cities Query{% endblock %}
+{% block head-ext %}
+  <link rel="stylesheet" type="text/css" href="{% static 'G863/lesson3.css' %}" />
+  <link
+    rel="stylesheet"
+    href="https://js.arcgis.com/4.20/esri/themes/dark/main.css"
+  />
+  <script src="https://js.arcgis.com/4.20/"></script>
+  <script src="{% static 'G863/lesson6.js' %}"></script>
+{% endblock %}
+
+{% block page-title %}GEOG: 863 Lesson 6 - Querying World Cities by Continent{% endblock %}
+
+{% block lesson-content %}
+  <div id="viewDiv"></div>
+  <h2>Description</h2>
+  <p>
+    This map will display a window prompt asking the user to input the name of a continent. Behind the scenes the 
+    application will then query an ArcGIS Online continents feature service to get the geometry for the continent in 
+    order to perform a spatial query on a world cities feature service. The world cities which are returned from the 
+    query are symbolized according to the population size using a UniqueValuesRenderer. Once the world cities are 
+    loaded onto the map the view will pan and zoom to encompass those cities. An additional feature to this map is that 
+    it will verify your input to make sure you enter the name of a real continent. If the user fails to enter a valid 
+    input a prompt will displayed reminding the user of continent names.
+  </p>
+  <h2>Programming Approach</h2>
+  <p>
+    To start this project I hard-coded the continent name which I would eventually use as user input. Building out the 
+    main query logic gave me a good opportunity to learn more about JavaScript promises, and in particular about 
+    promise chaining. After I had a complete and working chain I considered replacing my first query of the 
+    continentsLayer with a definition expression instead in order to simplify the process. It was at this point that I 
+    realized that while the geometry of a FeatureLayer can be accessed with the source property, the source is not 
+    updated with a change in the definition expression. Since the source did not change I realized that the only other 
+    way to get the features with the definition expression taken into consideration was to perform a query, essentially 
+    getting rid of any complexity reduction I was hoping for. After deciding not to use a defintion expression I 
+    refactored my code by defining and separating most of the chained functions as I found that chaining multiple 
+    complex functions made the code more difficult to follow and read. When I implemented custom symbology I noticed 
+    that the data already had attribute fields for classifying population size, so I decided to use them with a 
+    UniqueValuesRenderer rather than defining my own classifications with a ClassBreaksRenderer. I chose to implement 
+    the user prompt within the promise chain rather than outside of it so that it would give the layers/map an 
+    opportunity to load which would in turn make the application feel more responsive than waiting for user input 
+    before starting to load the map. I finished the project by adding a basic popup template which displays a city's 
+    capital status and population size, while cleaning the large number of cities without population data by replacing 
+    0 with "N/A". Overall the best takeaway for me in this lesson was the introduction to working with asynchronous 
+    JavaScript, which I'm definitely keen to learn more about in order to improve the performance of applications I 
+    will create in the future.
+  </p>
+{% endblock %}
